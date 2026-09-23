@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#111612">
+    <title>Web-SSH</title>
+    <link rel="stylesheet" href="/assets/vendor/xterm.css">
+    <link rel="stylesheet" href="/assets/app.css">
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div id="notice" class="notice" hidden></div>
+
+    <main id="auth-shell" class="auth-shell">
+      <section class="auth-copy">
+        <p class="eyebrow">Private terminal access</p>
+        <h1>Your shell,<br><em>without the tunnel.</em></h1>
+        <p class="lede">A small, self-hosted terminal gateway for one machine and the people you trust with it.</p>
+        <div class="status-row">
+          <span class="status-dot"></span>
+          <span id="setup-label">Checking this installation...</span>
+        </div>
+      </section>
+
+      <section class="auth-card">
+        <div class="card-mark">WS</div>
+        <div id="auth-view"></div>
+      </section>
+    </main>
+
+    <main id="console-shell" class="console-shell" hidden>
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Web-SSH home">
+          <span class="brand-mark">WS</span>
+          <span>Web-SSH</span>
+        </a>
+        <nav class="topnav">
+          <button id="terminal-tab" class="nav-link active" type="button">Terminal</button>
+          <button id="admin-tab" class="nav-link admin-only" type="button" hidden>Admin</button>
+        </nav>
+        <div class="account">
+          <span class="online-dot"></span>
+          <span id="account-name"></span>
+          <button id="logout-button" class="quiet-button" type="button">Sign out</button>
+        </div>
+      </header>
+
+      <section id="terminal-view" class="workspace">
+        <div class="terminal-toolbar">
+          <div>
+            <span class="terminal-label">Session 1</span>
+            <span id="terminal-status" class="terminal-status">connecting</span>
+          </div>
+          <div class="terminal-actions">
+            <button id="new-terminal" class="quiet-button" type="button">New session</button>
+            <button id="close-terminal" class="quiet-button danger" type="button">Close</button>
+          </div>
+        </div>
+        <div id="terminal" class="terminal-host" aria-label="Interactive terminal"></div>
+      </section>
+
+      <section id="admin-view" class="admin-view" hidden>
+        <div class="admin-heading">
+          <div>
+            <p class="eyebrow">Control room</p>
+            <h2>Access management</h2>
+          </div>
+          <p>Invite trusted people, revoke access, and inspect security events.</p>
+        </div>
+
+        <div class="admin-grid">
+          <article class="panel invite-panel">
+            <div class="panel-head">
+              <h3>New invitation</h3>
+            </div>
+            <form id="invite-form" class="stack">
+              <label>
+                Valid for
+                <select id="invite-expiry" name="expiry">
+                  <option value="60">1 hour</option>
+                  <option value="1440" selected>24 hours</option>
+                  <option value="4320">3 days</option>
+                  <option value="10080">7 days</option>
+                </select>
+              </label>
+              <button class="primary-button" type="submit">Create invitation</button>
+            </form>
+            <div id="invite-result" class="secret-box" hidden>
+              <span>Share this one-time code securely</span>
+              <code id="invite-code"></code>
+              <button id="copy-invite" class="quiet-button" type="button">Copy</button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h3>Active invitations</h3>
+              <button id="refresh-invites" class="quiet-button" type="button">Refresh</button>
+            </div>
+            <div id="invite-list" class="record-list"></div>
+          </article>
+
+          <article class="panel users-panel">
+            <div class="panel-head">
+              <h3>Accounts</h3>
+              <button id="refresh-users" class="quiet-button" type="button">Refresh</button>
+            </div>
+            <div id="user-list" class="record-list"></div>
+          </article>
+
+          <article class="panel audit-panel">
+            <div class="panel-head">
+              <h3>Security events</h3>
+              <button id="refresh-audit" class="quiet-button" type="button">Refresh</button>
+            </div>
+            <div id="audit-list" class="record-list audit-list"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="reset-dialog" class="dialog">
+      <form method="dialog" class="stack">
+        <div>
+          <p class="eyebrow">One-time reset</p>
+          <h3 id="reset-title">Password reset code</h3>
+        </div>
+        <div id="reset-result" class="secret-box">
+          <span>This code expires in 10 minutes</span>
+          <code id="reset-code"></code>
+        </div>
+        <button class="primary-button" type="submit">Close</button>
+      </form>
+    </dialog>
+
+    <script src="/assets/vendor/xterm.js"></script>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>

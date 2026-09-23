@@ -1,0 +1,9 @@
+/bin/
+/dist/
+/.cache/
+/coverage.out
+*.db
+*.db.tmp
+*.pem
+*.key
+*.crt

@@ -150,6 +150,7 @@ install_files() {
   printf '%s\n' "$host_csv" >"$config_dir/hosts"
   chmod 600 "$config_dir/hosts"
 
+  # shellcheck disable=SC2086 # host_arg is intentionally an optional argument list.
   "$bin_dir/web-ssh" cert-renew ${host_arg}
 
   cat >"$unit_dir/web-ssh.service" <<EOF
@@ -195,7 +196,8 @@ EOF
 start_service() {
   local systemctl_cmd=(systemctl --user)
   if [[ "${XDG_RUNTIME_DIR:-}" == "" ]]; then
-    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+    XDG_RUNTIME_DIR="/run/user/$(id -u)"
+    export XDG_RUNTIME_DIR
   fi
   if ! "${systemctl_cmd[@]}" show-environment >/dev/null 2>&1; then
     die "user systemd is unavailable; rerun with --foreground and manage the process yourself"

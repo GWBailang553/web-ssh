@@ -125,7 +125,7 @@ download_release() {
   curl -fsSL --retry 3 "$base/checksums.txt" -o "$TEMP_DIR/checksums.txt"
   (
     cd "$TEMP_DIR"
-    grep "  $archive\$" checksums.txt > selected-checksum.txt
+    awk -v file="$archive" '$NF == "./" file || $NF == file { print }' checksums.txt > selected-checksum.txt
     [[ -s selected-checksum.txt ]] || die "release checksum is missing for $archive"
     sha256sum --check --strict selected-checksum.txt
     tar -xzf "$archive"

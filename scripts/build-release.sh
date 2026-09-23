@@ -9,6 +9,7 @@ VERSION="${1:-}"
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST="$ROOT/dist"
+DISPLAY_VERSION="${VERSION#v}"
 rm -rf "$DIST"
 mkdir -p "$DIST"
 
@@ -18,7 +19,10 @@ for arch in amd64 arm64; do
   (
     cd "$ROOT"
     CGO_ENABLED=0 GOOS=linux GOARCH="$arch" \
-      go build -trimpath -ldflags "-s -w" -o "$work/web-ssh" ./cmd/web-ssh
+      go build -trimpath \
+        -ldflags "-s -w -X github.com/GWBailang553/web-ssh/internal/config.Version=$DISPLAY_VERSION" \
+        -o "$work/web-ssh" \
+        ./cmd/web-ssh
   )
   tar -C "$work" -czf "$DIST/web-ssh_${VERSION#v}_linux_${arch}.tar.gz" web-ssh
   rm -rf "$work"

@@ -9,7 +9,7 @@ The first account created on a new installation becomes the administrator. After
 On Ubuntu 22.04+ or a similar systemd Linux host:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/GWBailang553/web-ssh/v0.1.1/install.sh |
+curl -fsSL https://raw.githubusercontent.com/GWBailang553/web-ssh/v0.1.2/install.sh |
   bash -s -- --host your-hostname.example.com
 ```
 
@@ -26,7 +26,7 @@ Open `https://your-hostname.example.com:8443`. Browsers display a warning until 
 To test without installing a service:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/GWBailang553/web-ssh/v0.1.1/install.sh |
+curl -fsSL https://raw.githubusercontent.com/GWBailang553/web-ssh/v0.1.2/install.sh |
   bash -s -- --host 203.0.113.10 --foreground
 ```
 
@@ -71,7 +71,7 @@ journalctl --user -u web-ssh -f
 go test ./...
 go vet ./...
 shellcheck install.sh
-./scripts/build-release.sh v0.1.0
+./scripts/build-release.sh v0.1.2
 ```
 
 ## License

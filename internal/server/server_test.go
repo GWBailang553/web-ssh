@@ -42,8 +42,10 @@ func TestBootstrapIsAtomicAndSessionAuthenticates(t *testing.T) {
 		go func(index int) {
 			defer wait.Done()
 			jar, _ := cookiejar.New(nil)
-			client := httpServer.Client()
-			client.Jar = jar
+			client := &http.Client{
+				Transport: httpServer.Client().Transport,
+				Jar:       jar,
+			}
 			payload := bytes.NewBufferString(`{"username":"admin","password":"quiet-orbit-cedar-42!"}`)
 			request, _ := http.NewRequest(http.MethodPost, httpServer.URL+"/api/bootstrap", payload)
 			request.Header.Set("Content-Type", "application/json")
